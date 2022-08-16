@@ -1,0 +1,9 @@
+name: urban-tree-detection
+dependencies:
+  - python=3.8
+  - tensorflow-gpu=2.4.1
+  - numpy=1.19.2
+  - imageio
+  - h5py
+  - scipy
+  - tqdm
