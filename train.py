@@ -5,9 +5,8 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 import glob
 import numpy as np
 
-import SFANet
-
-from preprocess import preprocess
+from models import SFANet
+from utils.preprocess import preprocess
 
 import argparse
 import os
