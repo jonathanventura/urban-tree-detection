@@ -4,20 +4,14 @@ This repository provides code for training and evaluating a convolutional neural
 
 ### Installation ###
 
-### Data organization ###
+The model is implemented with Tensorflow 2.4.1.  We have provided an `environment.yml` file so that you can easily create a conda environment with the dependencies installed:
 
-* Images are stored in the `images` directory as TIFF files.
-* Each image has an associated CSV file in the `csv` directory containing tree locations in 2D pixel coordinates.
-* Each image has an associated GeoJSON file in the `json` directory containing geo-referenced tree locations.  Coordinates are stored in the local UTM zone.
-* A missing .csv or .json file means that there are no trees in the image.
-
-The files `train.txt`, `val.txt`, and `test.txt` specify the splits that were used in our paper.
+    conda env create 
+    conda activate urban-tree-detection
 
 ### Citation ###
 
-NAIP on AWS was accessed on January 28, 2022 from https://registry.opendata.aws/naip.
-
-If you use this data, please cite our paper:
+If you use or build upon this repository, please cite our paper:
 
 Ventura, J., Honsberger, M., Gonsalves, C., Rice, J., Pawlak, C., Love, N., Han, S., Nguyen, V., Sugano, K., Doremus, J., Fricker, G. A., Yost, J., Ritter, M. (2022). Individual Tree Detection in Large-Scale Urban Environments using High-Resolution Multispectral Imagery.  (In preparation)
 
