@@ -9,6 +9,46 @@ The model is implemented with Tensorflow 2.4.1.  We have provided an `environmen
     conda env create 
     conda activate urban-tree-detection
 
+### Dataset ###
+
+The data used in our paper can be found in [a separate Github repository](https://github.com/jonathanventura/urban-tree-detection-data/).
+
+To prepare a dataset for training and testing, run the `prepare.py` script.
+
+    python3 prepare.py --dataset <path to dataset> \
+                       --output <path to hdf5 file>
+
+### Training ###
+
+To train the model, run the `train.py` script.
+
+    python3 train.py --data <path to hdf5 file> \
+                     --log <path to log directory> \
+
+### Hyperparameter tuning ###
+
+The model outputs a confidence map, and we use local peak finding to isolate individual trees.  We use the Optuna package to determine the optimal parameters of the peaking finding algorithm.  We search for the best of hyperparameters to maximize F-score on the validation set.
+
+    python3 tune.py --data <path to hdf5 file> \
+                    --log <path to log directory>
+
+### Evaluation on test set ###
+
+Once hyperparameter tuning finishes, use the `test.py` script to compute evaluation metrics on the test set.
+
+    python3 test.py --data <path to hdf5 file> \
+                    --log <path to log directory> 
+
+### Using your own data ###
+
+To train on your own data, you will need to organize the data into the format expected by `prepare.py`.
+
+* The image crops (or "chips") should all be the same size and the side length should be a multiple of 32.
+* The code is currently designed for four-band imagery (red, green, blue, near-IR).  The code would need to be modified to handle a different set of bands.
+* Store the images as .tif files in a subdirectory called `images`.
+* For each image, store a csv file containing x,y coordinates for the tree locations in a file `<name>.csv` where `<name>.tif` is the corresponding image.
+* Create the files `train.txt`, `val.txt`, and `test.txt` to specify the names of the files in each split.
+
 ### Citation ###
 
 If you use or build upon this repository, please cite our paper:
