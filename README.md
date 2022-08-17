@@ -15,28 +15,28 @@ The data used in our paper can be found in [a separate Github repository](https:
 
 To prepare a dataset for training and testing, run the `prepare.py` script.
 
-    python3 prepare.py --dataset <path to dataset> \
+    python3 -m scripts.prepare --dataset <path to dataset> \
                        --output <path to hdf5 file>
 
 ### Training ###
 
 To train the model, run the `train.py` script.
 
-    python3 train.py --data <path to hdf5 file> \
+    python3 -m scripts.train --data <path to hdf5 file> \
                      --log <path to log directory> \
 
 ### Hyperparameter tuning ###
 
 The model outputs a confidence map, and we use local peak finding to isolate individual trees.  We use the Optuna package to determine the optimal parameters of the peaking finding algorithm.  We search for the best of hyperparameters to maximize F-score on the validation set.
 
-    python3 tune.py --data <path to hdf5 file> \
+    python3 -m scripts.tune --data <path to hdf5 file> \
                     --log <path to log directory>
 
 ### Evaluation on test set ###
 
 Once hyperparameter tuning finishes, use the `test.py` script to compute evaluation metrics on the test set.
 
-    python3 test.py --data <path to hdf5 file> \
+    python3 -m scripts.test --data <path to hdf5 file> \
                     --log <path to log directory> 
 
 ### Using your own data ###
