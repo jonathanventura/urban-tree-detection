@@ -39,6 +39,14 @@ Once hyperparameter tuning finishes, use the `test.py` script to compute evaluat
     python3 -m scripts.test --data <path to hdf5 file> \
                     --log <path to log directory> 
 
+### Inference on a large raster ###
+
+To detect trees in rasters and produce GeoJSONs containing the geo-referenced trees, use the `inference.py` script.  The script can process a single raster or a directory of rasters.
+
+    python3 -m scripts.inference --input <input tiff or directory> \
+                                 --output <output json or directory> \
+                                 --log <path to log directory>
+
 ### Using your own data ###
 
 To train on your own data, you will need to organize the data into the format expected by `prepare.py`.

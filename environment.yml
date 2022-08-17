@@ -4,6 +4,8 @@ dependencies:
   - tensorflow-gpu=2.4.1
   - numpy=1.19.2
   - imageio
+  - rasterio
+  - geopandas
   - h5py
   - scipy
   - tqdm
