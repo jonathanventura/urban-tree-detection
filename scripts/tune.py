@@ -11,8 +11,8 @@ import yaml
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', required=True, help='path to data hdf5 file')
-    parser.add_argument('--log', required=True, help='path to log directory')
+    parser.add_argument('data', help='path to data hdf5 file')
+    parser.add_argument('log', help='path to log directory')
     parser.add_argument('--ntrials', type=int, default=200, help='number of trials')
     parser.add_argument('--max_distance', type=float, default=10, help='max distance from gt to pred tree (in pixels)')
 

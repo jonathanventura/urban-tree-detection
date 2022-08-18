@@ -6,7 +6,7 @@ import glob
 import numpy as np
 
 from models import SFANet
-from utils.preprocess import preprocess
+from utils.preprocess import *
 
 import argparse
 import os
@@ -17,8 +17,8 @@ import h5py as h5
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--data', required=True, help='path to training data hdf5 file')
-    parser.add_argument('--log', required=True, help='path to log directory')
+    parser.add_argument('data', help='path to training data hdf5 file')
+    parser.add_argument('log', help='path to log directory')
 
     parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
     parser.add_argument('--epochs', type=int, default=500, help='num epochs')
@@ -27,16 +27,19 @@ def main():
     args = parser.parse_args()
 
     f = h5.File(args.data,'r')
+    bands = f.attrs['bands']
     train_images = f['train/images'][:]
     train_confidence = f['train/confidence'][:]
     train_attention = f['train/attention'][:]
     val_images = f['val/images'][:]
     val_confidence = f['val/confidence'][:]
     val_attention = f['val/attention'][:]
+    
+    preprocess_fn = eval(f'preprocess_{bands}')
 
     model, testing_model = SFANet.build_model(
         train_images.shape[1:],
-        preprocess_fn=preprocess)
+        preprocess_fn=preprocess_fn)
     opt = Adam(args.lr)
     model.compile(optimizer=opt, loss=['mse','binary_crossentropy'], loss_weights=[1,0.1])
 

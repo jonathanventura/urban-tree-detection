@@ -15,46 +15,42 @@ The data used in our paper can be found in [a separate Github repository](https:
 
 To prepare a dataset for training and testing, run the `prepare.py` script.
 
-    python3 -m scripts.prepare --dataset <path to dataset> \
-                       --output <path to hdf5 file>
+    python3 -m scripts.prepare <path to dataset> <path to hdf5 file>
 
 ### Training ###
 
 To train the model, run the `train.py` script.
 
-    python3 -m scripts.train --data <path to hdf5 file> \
-                     --log <path to log directory> \
+    python3 -m scripts.train <path to hdf5 file> <path to log directory>
 
 ### Hyperparameter tuning ###
 
 The model outputs a confidence map, and we use local peak finding to isolate individual trees.  We use the Optuna package to determine the optimal parameters of the peaking finding algorithm.  We search for the best of hyperparameters to maximize F-score on the validation set.
 
-    python3 -m scripts.tune --data <path to hdf5 file> \
-                    --log <path to log directory>
+    python3 -m scripts.tune <path to hdf5 file> <path to log directory>
 
 ### Evaluation on test set ###
 
 Once hyperparameter tuning finishes, use the `test.py` script to compute evaluation metrics on the test set.
 
-    python3 -m scripts.test --data <path to hdf5 file> \
-                    --log <path to log directory> 
+    python3 -m scripts.test <path to hdf5 file> <path to log directory> 
 
 ### Inference on a large raster ###
 
 To detect trees in rasters and produce GeoJSONs containing the geo-referenced trees, use the `inference.py` script.  The script can process a single raster or a directory of rasters.
 
-    python3 -m scripts.inference --input <input tiff or directory> \
-                                 --output <output json or directory> \
-                                 --log <path to log directory>
+    python3 -m scripts.inference <input tiff or directory> \
+                                 <output json or directory> \
+                                 <path to log directory>
 
 ### Using your own data ###
 
 To train on your own data, you will need to organize the data into the format expected by `prepare.py`.
 
 * The image crops (or "chips") should all be the same size and the side length should be a multiple of 32.
-* The code is currently designed for four-band imagery (red, green, blue, near-IR).  The code would need to be modified to handle a different set of bands.
-* Store the images as .tif files in a subdirectory called `images`.
-* For each image, store a csv file containing x,y coordinates for the tree locations in a file `<name>.csv` where `<name>.tif` is the corresponding image.
+* The code is currently designed for three-band (RGB) or four-band (red, green, blue, near-IR) imagery.  To handle more bands, you would need to add an appropriate preprocessing function in `utils/preprocess.py`.  If RGB are not in the bands, then `models/VGG.py` would need to be modified, as the code expects the first three bands to be RGB to match the pre-trained weights.
+* Store the images as TIFF or PNG files in a subdirectory called `images`.
+* For each image, store a csv file containing x,y coordinates for the tree locations in a file `<name>.csv` where `<name>.tif`, `<name>.tiff`, or `<name>.png` is the corresponding image. The csv file should have a single header line.
 * Create the files `train.txt`, `val.txt`, and `test.txt` to specify the names of the files in each split.
 
 ### Citation ###

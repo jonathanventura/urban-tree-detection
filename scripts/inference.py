@@ -18,9 +18,9 @@ import glob
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--input', required=True, help='path to input tiff file or directory')
-    parser.add_argument('--output', required=True, help='path to output json file or directory')
-    parser.add_argument('--log', required=True, help='path to log directory')
+    parser.add_argument('input', help='path to input tiff file or directory')
+    parser.add_argument('output', help='path to output json file or directory')
+    parser.add_argument('log', help='path to log directory')
     parser.add_argument('--tile_size', type=int, default=2048, help='tile size')
     parser.add_argument('--overlap', type=int, default=32, help='overlap between tiles')
 

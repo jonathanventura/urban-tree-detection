@@ -9,9 +9,10 @@ from scipy.ndimage import distance_transform_edt
 import tqdm
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset',required=True,help='path to dataset')
-parser.add_argument('--output',required=True,help='output path for .h5 file')
+parser.add_argument('dataset',help='path to dataset')
+parser.add_argument('output',help='output path for .h5 file')
 parser.add_argument('--sigma',type=float,default=3,help='Gaussian kernel size in pixels')
+parser.add_argument('--bands',default='RGBN',help='description of bands in input raster (RGB or RGBN)')
 args = parser.parse_args()
 
 images = []
@@ -25,8 +26,14 @@ def load_data(dataset_path,names,sigma):
     data = []
 
     for name in names:
-        image_path = os.path.join(dataset_path,'images',name + '.tif')
-        image = imageio.imread(image_path)
+        image = None
+        for suffix in ['.tif','.tiff','.png']:
+            image_path = os.path.join(dataset_path,'images',name + suffix)
+            if os.path.exists(image_path):
+                image = imageio.imread(image_path)
+                break
+        if image is None:
+            raise RuntimeError(f'could not find image for {name}')
         
         csv_path = os.path.join(dataset_path,'csv',name + '.csv')
         if os.path.exists(csv_path):
@@ -98,4 +105,5 @@ with h5py.File(args.output,'w') as f:
     add_data_to_h5(f,train_data,'train',augment=True)
     add_data_to_h5(f,val_data,'val')
     add_data_to_h5(f,test_data,'test')
+    f.attrs['bands'] = args.bands
 

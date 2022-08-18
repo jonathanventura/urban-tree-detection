@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def preprocess(images):
+def preprocess_RGBN(images):
     R = images[...,0:1]
     N = images[...,3:4]
     ndvi = tf.math.divide_no_nan((N-R),(N+R))
@@ -13,4 +13,9 @@ def preprocess(images):
     images_out = tf.concat([bgr,nir,ndvi],axis=-1)
 
     return images_out
+
+def preprocess_RGB(images):
+    bgr = tf.keras.applications.vgg16.preprocess_input(images[:,:,:,:3])
+    
+    return bgr
 
