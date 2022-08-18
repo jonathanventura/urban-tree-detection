@@ -13,9 +13,9 @@ The model is implemented with Tensorflow 2.4.1.  We have provided an `environmen
 
 The data used in our paper can be found in [a separate Github repository](https://github.com/jonathanventura/urban-tree-detection-data/).
 
-To prepare a dataset for training and testing, run the `prepare.py` script.
+To prepare a dataset for training and testing, run the `prepare.py` script.  You can specify the bands in the input raster using the `--bands` flag (currently `RGB` and `RGBN` are supported.)
 
-    python3 -m scripts.prepare <path to dataset> <path to hdf5 file>
+    python3 -m scripts.prepare <path to dataset> <path to hdf5 file> --bands RGBN
 
 ### Training ###
 
