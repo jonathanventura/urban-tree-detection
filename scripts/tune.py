@@ -5,9 +5,10 @@ import argparse
 import os
 import h5py as h5
 from models import SFANet
-from utils.preprocess import preprocess
+from utils.preprocess import *
 import optuna
 import yaml
+import numpy as np
 
 def main():
     parser = argparse.ArgumentParser()
@@ -22,15 +23,24 @@ def main():
     images = f['val/images'][:]
     gts = f['val/gt'][:]
 
-    training_model, model = SFANet.build_model(
-        images.shape[1:],
-        preprocess_fn=preprocess)
+    preds_path = os.path.join(args.log,'val_preds.npy')
+    if os.path.exists(preds_path):
+        print('----- loading predictions from file -----')
+        preds = np.load(preds_path)
+    else:
+        bands = f.attrs['bands']
+        preprocess = eval(f'preprocess_{bands}')
+        training_model, model = SFANet.build_model(
+            images.shape[1:],
+            preprocess_fn=preprocess)
 
-    weights_path = os.path.join(args.log,'weights.best.h5')
-    training_model.load_weights(weights_path)
+        weights_path = os.path.join(args.log,'weights.best.h5')
+        training_model.load_weights(weights_path)
 
-    print('----- getting predictions from trained model -----')
-    preds = model.predict(images,verbose=True,batch_size=1)[...,0]
+        print('----- getting predictions from trained model -----')
+        preds = model.predict(images,verbose=True,batch_size=1)[...,0]
+        
+        np.save(preds_path,preds)
 
     def objective(trial):
         min_distance = trial.suggest_int('min_distance',1,10)

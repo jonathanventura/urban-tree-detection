@@ -4,9 +4,12 @@ import argparse
 import os
 import h5py as h5
 import yaml
-from utils.evaluate import evaluate
+from utils.evaluate import evaluate, make_figure
 from models import SFANet
-from utils.preprocess import preprocess
+from utils.preprocess import *
+import imageio
+import matplotlib as mpl
+mpl.use('Agg')
 
 def main():
     parser = argparse.ArgumentParser()
@@ -35,15 +38,25 @@ def main():
     images = f[f'test/images'][:]
     gts = f[f'test/gt'][:]
 
-    training_model, model = SFANet.build_model(
-        images.shape[1:],
-        preprocess_fn=preprocess)
+    preds_path = os.path.join(args.log,'test_preds.npy')
+    if os.path.exists(preds_path):
+        print('----- loading predictions from file -----')
+        preds = np.load(preds_path)
+    else:
+        bands = f.attrs['bands']
+        
+        preprocess = eval(f'preprocess_{bands}')
+        training_model, model = SFANet.build_model(
+            images.shape[1:],
+            preprocess_fn=preprocess)
 
-    weights_path = os.path.join(args.log,'weights.best.h5')
-    training_model.load_weights(weights_path)
+        weights_path = os.path.join(args.log,'weights.best.h5')
+        training_model.load_weights(weights_path)
 
-    print('----- getting predictions from trained model -----')
-    preds = model.predict(images,verbose=True,batch_size=1)[...,0]
+        print('----- getting predictions from trained model -----')
+        preds = model.predict(images,verbose=True,batch_size=1)[...,0]
+
+        np.save(preds_path,preds)
 
     print('----- calculating metrics -----')
     results = evaluate(
@@ -55,11 +68,20 @@ def main():
         max_distance=args.max_distance,
         return_locs=True)
 
+    with open(os.path.join(args.log,'results.txt'),'w') as f:
+        f.write('precision: '+str(results['precision']))
+        f.write('recall: '+str(results['recall']))
+        f.write('fscore: '+str(results['fscore']))
+        f.write('rmse [px]: '+str(results['rmse']))
+
     print('------- results for: ' + args.log + ' ---------')
-    print('precision:',results['precision'])
-    print('recall:',results['recall'])
-    print('fscore:',results['fscore'])
-    print('rmse:',results['rmse'])
+    print('precision: ',results['precision'])
+    print('recall: ',results['recall'])
+    print('fscore: ',results['fscore'])
+    print('rmse [px]: ',results['rmse'])
+        
+    fig = make_figure(images,results)
+    fig.savefig(os.path.join(args.log,'figure.pdf'))
 
 if __name__ == '__main__':
     main()
