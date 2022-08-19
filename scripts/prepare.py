@@ -25,12 +25,15 @@ attentions = []
 def load_data(dataset_path,names,sigma):
     data = []
 
+    pbar = tqdm.tqdm(total=len(names))
     for name in names:
         image = None
         for suffix in ['.tif','.tiff','.png']:
             image_path = os.path.join(dataset_path,'images',name + suffix)
             if os.path.exists(image_path):
                 image = imageio.imread(image_path)
+                if suffix == '.png':
+                    image = image[...,:3]
                 break
         if image is None:
             raise RuntimeError(f'could not find image for {name}')
@@ -53,7 +56,7 @@ def load_data(dataset_path,names,sigma):
         confidence = confidence[...,None]
 
         attention = confidence>0.001
-        attention = confidence.astype('float32')
+        attention = attention.astype('float32')
 
         data.append({
             'name':name,
@@ -62,6 +65,8 @@ def load_data(dataset_path,names,sigma):
             'confidence':confidence,
             'attention':attention
         })
+        
+        pbar.update(1)
     
     return data
 
