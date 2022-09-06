@@ -62,7 +62,3 @@ J. Ventura, M. Honsberger, C. Gonsalves, J. Rice, C. Pawlak, N.L.R. Love, S. Han
 ### Acknowledgments ###
 
 This project was funded by CAL FIRE (award number: 8GB18415) the US Forest Service (award number: 21-CS-11052021-201), and an incubation grant from the Data Science Strategic Research Initiative at California Polytechnic State University.
-
-### License ###
-
-This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
