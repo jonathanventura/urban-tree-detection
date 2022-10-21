@@ -1,7 +1,7 @@
 import numpy as np
 
 from models import SFANet
-from utils.preprocess import preprocess
+from utils.preprocess import *
 from utils.inference import run_tiled_inference
 
 import argparse
@@ -21,6 +21,7 @@ def main():
     parser.add_argument('input', help='path to input tiff file or directory')
     parser.add_argument('output', help='path to output json file or directory')
     parser.add_argument('log', help='path to log directory')
+    parser.add_argument('--bands', default='RGBN', help='input bands')
     parser.add_argument('--tile_size', type=int, default=2048, help='tile size')
     parser.add_argument('--overlap', type=int, default=32, help='overlap between tiles')
 
@@ -28,6 +29,7 @@ def main():
     
     weights_path = os.path.join(args.log,'weights.best.h5')
     padded_size = args.tile_size + args.overlap*2
+    preprocess = eval(f'preprocess_{args.bands}')
     training_model, model = SFANet.build_model((padded_size,padded_size,4),preprocess_fn=preprocess)
     training_model.load_weights(weights_path)
     
