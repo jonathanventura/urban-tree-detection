@@ -45,7 +45,7 @@ To detect trees in rasters and produce GeoJSONs containing the geo-referenced tr
 
 ### Pre-trained weights ###
 
-[Pre-trained weights]((https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EUMJLY3xLt1KnJA-gu6T1boBdWzzPHzJSKoUxRNKyiZDrg?e=vGfvFn)) for a model trained on 60cm NAIP 2020 imagery from Southern California are available.  The `pretrained` directory should be used as the log directory for the `inference` script.  
+[Pre-trained weights](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EUMJLY3xLt1KnJA-gu6T1boBdWzzPHzJSKoUxRNKyiZDrg?e=vGfvFn) for a model trained on 60cm NAIP 2020 imagery from Southern California are available.  The `pretrained` directory should be used as the log directory for the `inference` script.  
 
 We also provide an [example NAIP 2020 tile from Los Angeles](https://cpslo-my.sharepoint.com/:i:/g/personal/jventu09_calpoly_edu/EU1xfporUiBDvT2ZOpW0raEBOqJcJQpqcOv1lKNMCgbCdQ?e=zsgxXs) and an [example GeoJSON predictions file](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EaoRmlVJ4hRKhf2-LLeg-r4BwDM4bSUz5NI3P3ydIWs7kA?e=ZvbPFT).
 
