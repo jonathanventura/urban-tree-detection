@@ -38,25 +38,18 @@ def main():
     images = f[f'test/images'][:]
     gts = f[f'test/gt'][:]
 
-    preds_path = os.path.join(args.log,'test_preds.npy')
-    if os.path.exists(preds_path):
-        print('----- loading predictions from file -----')
-        preds = np.load(preds_path)
-    else:
-        bands = f.attrs['bands']
-        
-        preprocess = eval(f'preprocess_{bands}')
-        training_model, model = SFANet.build_model(
-            images.shape[1:],
-            preprocess_fn=preprocess)
+    bands = f.attrs['bands']
+    
+    preprocess = eval(f'preprocess_{bands}')
+    training_model, model = SFANet.build_model(
+        images.shape[1:],
+        preprocess_fn=preprocess)
 
-        weights_path = os.path.join(args.log,'weights.best.h5')
-        training_model.load_weights(weights_path)
+    weights_path = os.path.join(args.log,'weights.best.h5')
+    training_model.load_weights(weights_path)
 
-        print('----- getting predictions from trained model -----')
-        preds = model.predict(images,verbose=True,batch_size=1)[...,0]
-
-        np.save(preds_path,preds)
+    print('----- getting predictions from trained model -----')
+    preds = model.predict(images,verbose=True,batch_size=1)[...,0]
 
     print('----- calculating metrics -----')
     results = evaluate(
