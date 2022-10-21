@@ -43,6 +43,14 @@ To detect trees in rasters and produce GeoJSONs containing the geo-referenced tr
                                  <output json or directory> \
                                  <path to log directory>
 
+### Pre-trained weights ###
+
+Pre-trained weights for a model trained on 60cm NAIP 2020 imagery from Southern California are available [here](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EUMJLY3xLt1KnJA-gu6T1boBdWzzPHzJSKoUxRNKyiZDrg?e=vGfvFn).  The `pretrained` directory should be used as the log directory for the `inference` script.  
+
+We also provide an [example NAIP 2020 tile from Los Angeles](https://cpslo-my.sharepoint.com/:i:/g/personal/jventu09_calpoly_edu/EU1xfporUiBDvT2ZOpW0raEBOqJcJQpqcOv1lKNMCgbCdQ?e=zsgxXs) and an [example GeoJSON predictions file](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EaoRmlVJ4hRKhf2-LLeg-r4BwDM4bSUz5NI3P3ydIWs7kA?e=ZvbPFT).
+
+You can explore a [map of predictions for the entire urban reserve of California](https://jventu09.users.earthengine.app/view/urban-tree-detector) (based on NAIP 2020 imagery) created using this pre-trained model.
+
 ### Using your own data ###
 
 To train on your own data, you will need to organize the data into the format expected by `prepare.py`.
