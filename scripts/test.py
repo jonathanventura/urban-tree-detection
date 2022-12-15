@@ -62,10 +62,10 @@ def main():
         return_locs=True)
 
     with open(os.path.join(args.log,'results.txt'),'w') as f:
-        f.write('precision: '+str(results['precision']))
-        f.write('recall: '+str(results['recall']))
-        f.write('fscore: '+str(results['fscore']))
-        f.write('rmse [px]: '+str(results['rmse']))
+        f.write('precision: '+str(results['precision'])+'\n')
+        f.write('recall: '+str(results['recall'])+'\n')
+        f.write('fscore: '+str(results['fscore'])+'\n')
+        f.write('rmse [px]: '+str(results['rmse'])+'\n')
 
     print('------- results for: ' + args.log + ' ---------')
     print('precision: ',results['precision'])
