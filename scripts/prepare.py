@@ -87,6 +87,7 @@ train_names,val_names,test_names = [read_names(split) for split in ['train','val
 train_data,val_data,test_data = [load_data(args.dataset,names,args.sigma) for names in [train_names,val_names,test_names]]
 
 def add_data_to_h5(f,data,split,augment=False):
+    if len(data)==0: return
     names = np.array([d['image'] for d in data])
     images = np.stack([d['image'] for d in data],axis=0)
     gt = np.stack([d['gt'] for d in data],axis=0)
