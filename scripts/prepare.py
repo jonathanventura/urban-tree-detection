@@ -14,6 +14,7 @@ parser.add_argument('output',help='output path for .h5 file')
 parser.add_argument('--train',default='train.txt')
 parser.add_argument('--val',default='val.txt')
 parser.add_argument('--test',default='test.txt')
+parser.add_argument('--augment',action='store_true')
 parser.add_argument('--sigma',type=float,default=3,help='Gaussian kernel size in pixels')
 parser.add_argument('--bands',default='RGBN',help='description of bands in input raster (RGB or RGBN)')
 args = parser.parse_args()
@@ -111,7 +112,7 @@ def add_data_to_h5(f,data,split,augment=False):
     f.create_dataset(f'{split}/attention',data=attention)
 
 with h5py.File(args.output,'w') as f:
-    add_data_to_h5(f,train_data,'train',augment=True)
+    add_data_to_h5(f,train_data,'train',augment=args.augment)
     add_data_to_h5(f,val_data,'val')
     add_data_to_h5(f,test_data,'test')
     f.attrs['bands'] = args.bands
