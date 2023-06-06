@@ -11,6 +11,9 @@ import tqdm
 parser = argparse.ArgumentParser()
 parser.add_argument('dataset',help='path to dataset')
 parser.add_argument('output',help='output path for .h5 file')
+parser.add_argument('--train',default='train.txt')
+parser.add_argument('--val',default='val.txt')
+parser.add_argument('--test',default='test.txt')
 parser.add_argument('--sigma',type=float,default=3,help='Gaussian kernel size in pixels')
 parser.add_argument('--bands',default='RGBN',help='description of bands in input raster (RGB or RGBN)')
 args = parser.parse_args()
@@ -80,9 +83,9 @@ def augment_images(images):
     augmented = np.concatenate((augmented, np.flip(augmented, axis=-2)))
     return augmented
     
-def read_names(split):
-    return [name.rstrip() for name in open(os.path.join(args.dataset,split+'.txt'),'r')]
-train_names,val_names,test_names = [read_names(split) for split in ['train','val','test']]
+def read_names(filename):
+    return [name.rstrip() for name in open(os.path.join(args.dataset,filename),'r')]
+train_names,val_names,test_names = [read_names(split) for split in [args.train,args.val,args.test]]
 
 train_data,val_data,test_data = [load_data(args.dataset,names,args.sigma) for names in [train_names,val_names,test_names]]
 
