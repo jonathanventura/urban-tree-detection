@@ -29,14 +29,14 @@ def _tiled_inference(model,input_path,output_path,tile_size,overlap):
             for row in range(overlap,height-overlap,tile_size):
                 for col in range(overlap,width-overlap,tile_size):
                     window = rasterio.windows.Window(col-overlap,row-overlap,padded_size,padded_size)
-                    image = src.read([1,2,3,4],window=window)
+                    image = src.read(window=window)
                     image = np.expand_dims(np.transpose(image,[1,2,0]),axis=0)
                     
                     down_pad = max(0,padded_size-image.shape[1])
                     right_pad = max(0,padded_size-image.shape[2])
                     image = np.pad(image,((0,0),(0,down_pad),(0,right_pad),(0,0)))
             
-                    output = model.predict(image)
+                    output = model.predict(image,verbose=False)
                     
                     # zero out "no data" pixels
                     mask = np.all(image==nodata,axis=-1)

@@ -30,7 +30,7 @@ def main():
     weights_path = os.path.join(args.log,'weights.best.h5')
     padded_size = args.tile_size + args.overlap*2
     preprocess = eval(f'preprocess_{args.bands}')
-    training_model, model = SFANet.build_model((padded_size,padded_size,4),preprocess_fn=preprocess)
+    training_model, model = SFANet.build_model((padded_size,padded_size,len(args.bands)),preprocess_fn=preprocess)
     training_model.load_weights(weights_path)
     
     if os.path.isdir(args.input):
