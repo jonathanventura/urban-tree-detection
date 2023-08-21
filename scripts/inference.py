@@ -26,6 +26,20 @@ def main():
     parser.add_argument('--overlap', type=int, default=32, help='overlap between tiles')
 
     args = parser.parse_args()
+
+    params_path = os.path.join(args.log,'params.yaml')
+    if os.path.exists(params_path):
+        with open(params_path,'r') as f:
+            params = yaml.safe_load(f)
+            mode = params['mode']
+            min_distance = params['min_distance']
+            threshold_abs = params['threshold_abs'] if mode == 'abs' else None
+            threshold_rel = params['threshold_rel'] if mode == 'rel' else None
+    else:
+        print(f'warning: params.yaml missing -- using default params')
+        min_distance = 1
+        threshold_abs = None
+        threshold_rel = 0.2
     
     weights_path = os.path.join(args.log,'weights.best.h5')
     padded_size = args.tile_size + args.overlap*2
@@ -40,10 +54,10 @@ def main():
         for input_path in paths:
             output_path = os.path.join(args.output,os.path.basename(input_path).split('.')[0]+'.json')
             if not os.path.exists(output_path):
-                run_tiled_inference(model,input_path,output_path,min_distance=1,threshold_abs=None,threshold_rel=.2)
+                run_tiled_inference(model,input_path,output_path,min_distance=min_distance,threshold_abs=threshold_abs,threshold_rel=threshold_rel)
             pbar.update(1)
     else:
-        run_tiled_inference(model,args.input,args.output,min_distance=1,threshold_abs=None,threshold_rel=.2)
+        run_tiled_inference(model,args.input,args.output,min_distance=min_distance,threshold_abs=threshold_abs,threshold_rel=threshold_rel)
 
 if __name__ == '__main__':
     main()
