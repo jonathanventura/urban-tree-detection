@@ -7,6 +7,7 @@ from utils.inference import run_tiled_inference
 import argparse
 import os
 import sys
+import yaml
 
 import rasterio
 
