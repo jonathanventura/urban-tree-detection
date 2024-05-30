@@ -2,15 +2,15 @@ name: urban-tree-detection
 dependencies:
   - python=3.8
   - tensorflow-gpu=2.4.1
-  - numpy=1.19.2
+  - numpy
   - imageio
   - rasterio
   - geopandas
   - h5py
   - scipy
   - tqdm
+  - scikit-image
+  - scikit-learn
   - pip
   - pip:
     - optuna
-    - scikit-image
-    - scikit-learn
