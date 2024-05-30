@@ -14,6 +14,7 @@ import tempfile
 import geopandas as gpd
 
 def _tiled_inference(model,input_path,output_path,tile_size,overlap):
+    nbands = model.input_shape[-1]
     with rasterio.open(input_path,'r') as src:
         meta = src.meta
         height = meta['height']
@@ -29,7 +30,7 @@ def _tiled_inference(model,input_path,output_path,tile_size,overlap):
             for row in range(overlap,height-overlap,tile_size):
                 for col in range(overlap,width-overlap,tile_size):
                     window = rasterio.windows.Window(col-overlap,row-overlap,padded_size,padded_size)
-                    image = src.read(window=window)
+                    image = src.read(range(1,nbands+1),window=window)
                     image = np.expand_dims(np.transpose(image,[1,2,0]),axis=0)
                     
                     down_pad = max(0,padded_size-image.shape[1])

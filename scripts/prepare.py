@@ -36,7 +36,7 @@ def load_data(dataset_path,names,sigma):
             image_path = os.path.join(dataset_path,'images',name + suffix)
             if os.path.exists(image_path):
                 image = imageio.imread(image_path)
-                if suffix == '.png':
+                if suffix == '.png' or args.bands == 'RGB':
                     image = image[...,:3]
                 break
         if image is None:
