@@ -15,7 +15,7 @@ The data used in our paper can be found in [a separate Github repository](https:
 
 To prepare a dataset for training and testing, run the `prepare.py` script.  You can specify the bands in the input raster using the `--bands` flag (currently `RGB` and `RGBN` are supported.)
 
-    python3 -m scripts.prepare <path to dataset> <path to hdf5 file> --bands RGBN
+    python3 -m scripts.prepare <path to dataset> <path to hdf5 file> --bands <RGB or RGBN>
 
 ### Training ###
 
@@ -41,13 +41,20 @@ To detect trees in rasters and produce GeoJSONs containing the geo-referenced tr
 
     python3 -m scripts.inference <input tiff or directory> \
                                  <output json or directory> \
-                                 <path to log directory>
+                                 <path to log directory> \
+                                 --bands <RGB or RGBN>
 
 ### Pre-trained weights ###
 
-[Pre-trained weights](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EUMJLY3xLt1KnJA-gu6T1boBdWzzPHzJSKoUxRNKyiZDrg?e=vGfvFn) for a model trained on 60cm NAIP 2020 imagery from Southern California are available.  The `pretrained` directory should be used as the log directory for the `inference` script.  
+The following pre-trained models are available:
 
-We also provide an [example NAIP 2020 tile from Los Angeles](https://cpslo-my.sharepoint.com/:i:/g/personal/jventu09_calpoly_edu/EU1xfporUiBDvT2ZOpW0raEBOqJcJQpqcOv1lKNMCgbCdQ?e=zsgxXs) and an [example GeoJSON predictions file](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EaoRmlVJ4hRKhf2-LLeg-r4BwDM4bSUz5NI3P3ydIWs7kA?e=ZvbPFT).
+| Imagery   | Years     | Bands    | Region                         | Log Directory Archive     |
+|-----------|-----------|----------|--------------------------------|---------------------------|
+| 60cm NAIP | 2016-2020 | RGBN     | Northern & Southern California | [OneDrive](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/ES31TXWdeGRFj_hn3O4qZpoBfhye_ssuULyaC2WB7yaJTw?e=cYkjMf) |
+| 60cm NAIP | 2016-2020 | RGB      | Northern & Southern California | [OneDrive](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/Eay6v76obwpIqJmeK23_4zUBNb5EwM6R36wcSqh_BWKj_g?e=JrOwkO)
+| 60cm NAIP | 2020      | RGBN     | Southern California            | [OneDrive](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EQMSOBZjuDFCjj_PNgSDXZ0BMQUcGQKUO_SlJ5SGH2Bl9Q?e=9RhhpN)
+
+We also provide an [example NAIP 2020 tile from Los Angeles](https://cpslo-my.sharepoint.com/:i:/g/personal/jventu09_calpoly_edu/EU1xfporUiBDvT2ZOpW0raEBOqJcJQpqcOv1lKNMCgbCdQ?e=zsgxXs) and an [example GeoJSON predictions file from the RGBN 2016-2020 model](https://cpslo-my.sharepoint.com/:u:/g/personal/jventu09_calpoly_edu/EUHYGnWdqL5FvYc1wm9hSl8BBdL2JEgMSlqS1FiTdB0EWA?e=uZMIBc).  
 
 You can explore a [map of predictions for the entire urban reserve of California](https://jventu09.users.earthengine.app/view/urban-tree-detector) (based on NAIP 2020 imagery) created using this pre-trained model.
 
@@ -65,7 +72,7 @@ To train on your own data, you will need to organize the data into the format ex
 
 If you use or build upon this repository, please cite our paper:
 
-J. Ventura, C. Pawlak, M. Honsberger, C. Gonsalves, J. Rice, N.L.R. Love, S. Han, V. Nguyen, K. Sugano, J. Doremus, G.A. Fricker, J. Yost, and M. Ritter. ["Individual Tree Detection in Large-Scale Urban Environments using High-Resolution Multispectral Imagery."](https://doi.org/10.48550/arXiv.2208.10607)  arXiv:2208.10606 [cs], Oct. 2022.
+J. Ventura, C. Pawlak, M. Honsberger, C. Gonsalves, J. Rice, N.L.R. Love, S. Han, V. Nguyen, K. Sugano, J. Doremus, G.A. Fricker, J. Yost, and M. Ritter (2024). [Individual Tree Detection in Large-Scale Urban Environments using High-Resolution Multispectral Imagery.](https://www.sciencedirect.com/science/article/pii/S1569843224002024)  International Journal of Applied Earth Observation and Geoinformation, 130, 103848.
 
 ### Acknowledgments ###
 
